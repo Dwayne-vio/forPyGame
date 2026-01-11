@@ -1,0 +1,218 @@
+import pygame
+from pygame.locals import *
+
+# Initialize Pygame
+pygame.init()
+screen = pygame.display.set_mode((800, 400))
+pygame.display.set_caption("Capstone 2")
+
+# Font
+myFont = pygame.font.SysFont('cambria', 14)
+
+# Game directions
+directions = "Please press the 'Y' key for yes and the 'N' key for no."
+restart_prompt = "Press 'R' to restart the game."
+
+# Current question counter
+currentQuestion = 0
+
+# Helper function to draw wrapped text
+def draw_text(text, font, color, surface, x, y, max_width):
+    words = text.split(' ')
+    lines = []
+    current_line = ""
+
+    for word in words:
+        test_line = current_line + word + " "
+        if font.size(test_line)[0] <= max_width:
+            current_line = test_line
+        else:
+            lines.append(current_line)
+            current_line = word + " "
+    lines.append(current_line)
+
+    y_offset = y
+    for line in lines:
+        text_surface = font.render(line, True, color)
+        surface.blit(text_surface, (x, y_offset))
+        y_offset += font.get_linesize()
+    return y_offset
+
+# Story logic
+def story(answer, count):
+    screen.fill("white")
+    if count == 0:
+        question1(answer)
+    elif count == 1:
+        question2(answer)
+    elif count == 2:
+        question3(answer)
+    elif count == 3:
+        end(answer)
+
+# Intro screen
+def intro():
+    screen.fill("white")
+    intro1 = "In a forgotten age, when shadows ruled the land, there lived a fearless knight named Aric."
+    intro2 = "Legends claimed he once defeated an entire battalion of ogres with nothing but a broken shield."
+    intro3 = "One night, Aric learned that an ancient warlock named Malakar had awakened from his thousand-year slumber."
+    q1 = "Should Aric journey to Malakar's ruined fortress to confront him? Yes or no?"
+
+    y = 10
+    y = draw_text(intro1, myFont, "black", screen, 50, y, 1100)
+    y = draw_text(intro2, myFont, "black", screen, 50, y, 1100)
+    y = draw_text(intro3, myFont, "black", screen, 50, y, 1100)
+    y += 10
+    y = draw_text(q1, myFont, "black", screen, 50, y, 1100)
+    y += 10
+    draw_text(directions, myFont, "black", screen, 50, y, 1100)
+
+# Question 1
+def question1(answer):
+    screen.fill("white")
+    if answer == K_y:
+        yes1 = "Aric marches into the cursed forest, the air thick with whispers of forgotten souls."
+        yes2 = "After hours of travel, he spots the silhouette of Malakar's fortress glowing with eerie green flames."
+        q2 = "Should Aric enter the fortress immediately? Yes or no?"
+        y = 10
+        y = draw_text(yes1, myFont, "black", screen, 50, y, 1100)
+        y = draw_text(yes2, myFont, "black", screen, 50, y, 1100)
+        y += 10
+        y = draw_text(q2, myFont, "black", screen, 50, y, 1100)
+        y += 10
+        draw_text(directions, myFont, "black", screen, 50, y, 1100)
+
+    elif answer == K_n:
+        no1 = "Aric returns to the village, hoping the threat will fade on its own."
+        no2 = "But Malakar's dark magic spreads quickly, twisting the land into nightmares."
+        no3 = "Villagers flee as shadows consume their homes."
+        no4 = "Aric realizes he cannot run from destiny any longer."
+        q2 = "Should Aric gather allies before facing Malakar? Yes or no?"
+        y = 10
+        y = draw_text(no1, myFont, "black", screen, 50, y, 1100)
+        y = draw_text(no2, myFont, "black", screen, 50, y, 1100)
+        y = draw_text(no3, myFont, "black", screen, 50, y, 1100)
+        y = draw_text(no4, myFont, "black", screen, 50, y, 1100)
+        y += 10
+        y = draw_text(q2, myFont, "black", screen, 50, y, 1100)
+        y += 10
+        draw_text(directions, myFont, "black", screen, 50, y, 1100)
+
+# Question 2
+def question2(answer):
+    screen.fill("white")
+    if answer == K_y:
+        yes1 = "Aric charges into the fortress, but Malakar's spectral guardians overwhelm him."
+        q3 = "Should Aric retreat and rethink his strategy? Yes or no?"
+        y = 10
+        y = draw_text(yes1, myFont, "black", screen, 50, y, 1100)
+        y += 10
+        y = draw_text(q3, myFont, "black", screen, 50, y, 1100)
+        y += 10
+        draw_text(directions, myFont, "black", screen, 50, y, 1100)
+
+    elif answer == K_n:
+        no1 = "Aric searches the nearby ruins and discovers an ancient prophecy carved in stone."
+        story2 = "It speaks of a chosen warrior destined to defeat Malakar using the Blade of Dawn."
+        story3 = "A mysterious sage appears, claiming Aric is the chosen one."
+        story4 = "'The warlock fears you,' the sage whispers. 'But only if you embrace your true power.'"
+        q3 = "Should Aric trust the sage? Yes or no?"
+        y = 10
+        y = draw_text(no1, myFont, "black", screen, 50, y, 1100)
+        y = draw_text(story2, myFont, "black", screen, 50, y, 1100)
+        y = draw_text(story3, myFont, "black", screen, 50, y, 1100)
+        y = draw_text(story4, myFont, "black", screen, 50, y, 1100)
+        y += 10
+        y = draw_text(q3, myFont, "black", screen, 50, y, 1100)
+        y += 10
+        draw_text(directions, myFont, "black", screen, 50, y, 1100)
+
+# Question 3
+def question3(answer):
+    screen.fill("white")
+    if answer == K_y:
+        yes1 = "Aric accepts the sage's guidance, feeling a surge of radiant energy flow through him."
+        yes2 = "With the Blade of Dawn awakened, he prepares for the final confrontation."
+        q4 = "Should Aric storm the warlock's tower now? Yes or no?"
+        y = 10
+        y = draw_text(yes1, myFont, "black", screen, 50, y, 1100)
+        y = draw_text(yes2, myFont, "black", screen, 50, y, 1100)
+        y += 10
+        y = draw_text(q4, myFont, "black", screen, 50, y, 1100)
+        y += 10
+        draw_text(directions, myFont, "black", screen, 50, y, 1100)
+
+    elif answer == K_n:
+        no1 = "Aric hesitates, doubting the prophecy."
+        no2 = "Malakar senses his weakness and sends shadow beasts to capture him."
+        no3 = "Aric is imprisoned deep within the fortress, drained of hope."
+        no4 = "Malakar believes victory is already his."
+        q4 = "Should Aric attempt a daring escape? Yes or no?"
+        y = 10
+        y = draw_text(no1, myFont, "black", screen, 50, y, 1100)
+        y = draw_text(no2, myFont, "black", screen, 50, y, 1100)
+        y = draw_text(no3, myFont, "black", screen, 50, y, 1100)
+        y = draw_text(no4, myFont, "black", screen, 50, y, 1100)
+        y += 10
+        y = draw_text(q4, myFont, "black", screen, 50, y, 1100)
+        y += 10
+        draw_text(directions, myFont, "black", screen, 50, y, 1100)
+
+# End screen
+def end(answer):
+    screen.fill("white")
+    if answer == K_y:
+        yes1 = "As Aric stands before Malakar, the warlock unleashes a storm of dark magic."
+        end1 = "But the Blade of Dawn shines brighter, fueled by Aric's courage."
+        end2 = "With a mighty strike, he shatters Malakar's staff, breaking his ancient power."
+        end3 = "The fortress collapses as the warlock fades into dust."
+        end4 = "Aric emerges victorious, the land finally freed from centuries of darkness."
+        end5 = "Villagers hail him as the greatest hero of the age."
+        end6 = "The end!"
+        y = 10
+        y = draw_text(yes1, myFont, "black", screen, 50, y, 1100)
+        y = draw_text(end1, myFont, "black", screen, 50, y, 1100)
+        y = draw_text(end2, myFont, "black", screen, 50, y, 1100)
+        y = draw_text(end3, myFont, "black", screen, 50, y, 1100)
+        y = draw_text(end4, myFont, "black", screen, 50, y, 1100)
+        y = draw_text(end5, myFont, "black", screen, 50, y, 1100)
+        y = draw_text(end6, myFont, "black", screen, 50, y, 1100)
+
+    elif answer == K_n:
+        no1 = "Aric remains trapped, his strength fading as Malakar's magic grows stronger."
+        end1 = "He dreams of the battle he never fought."
+        end2 = "The warlock's darkness spreads across the realm unchecked."
+        end3 = "Hope becomes nothing more than a forgotten legend."
+        end4 = "The end."
+        y = 10
+        y = draw_text(no1, myFont, "black", screen, 50, y, 1100)
+        y = draw_text(end1, myFont, "black", screen, 50, y, 1100)
+        y = draw_text(end2, myFont, "black", screen, 50, y, 1100)
+        y = draw_text(end3, myFont, "black", screen, 50, y, 1100)
+        y = draw_text(end4, myFont, "black", screen, 50, y, 1100)
+
+    draw_text(restart_prompt, myFont, "black", screen, 50, y + 40, 1100)
+
+# Show intro at start
+intro()
+
+# Game loop
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            running = False
+        elif event.type == KEYDOWN:
+            if currentQuestion == 0:
+                story(event.key, currentQuestion)
+                currentQuestion += 1
+            elif currentQuestion < 4:
+                story(event.key, currentQuestion)
+                currentQuestion += 1
+            elif currentQuestion == 4 and event.key == K_r:
+                currentQuestion = 0
+                intro()
+
+    pygame.display.update()
+
+pygame.quit()
